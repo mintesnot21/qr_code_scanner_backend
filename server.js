@@ -11,11 +11,32 @@ const { connectDb } = require('./connectDb');
 const { userModel } = require('./useModel');
 
 app.use(express.json());
-app.use(cors({
-    origin: ['http://localhost:5173','https://ztcafe.vercel.app/', 'https://qr-code-scanner-backend-tand.onrender.com'], 
-    methods: ['GET', 'POST', 'PATCH', 'DELETE'],
-    allowedHeaders: ['Content-Type','Authorization']
-}))
+
+const allowedOrigins = [
+  'https://ztcafe.vercel.app',  
+  'https://qr-code-scanner-frontend.onrender.com', 
+  'http://localhost:5173'
+];
+
+const corsOptions = {
+  origin: function (origin, callback) {
+    
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+  optionsSuccessStatus: 200
+};
+
+
+app.use(cors(corsOptions))
 
 const conn_str = "mongodb+srv://mintesnotgirma973_db_user:0oXdrWY73ZO5WefX@cluster0.2myqddj.mongodb.net/menuItems?appName=Cluster0"
 connectDb(conn_str)
