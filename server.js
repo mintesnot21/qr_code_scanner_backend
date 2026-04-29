@@ -77,7 +77,7 @@ app.post('/api/auth/login', async (req, res) => {
             return res.status(401).json({ error: 'Invalid password' });
         }
 
-        console.log.log("isPasswordValid: ",isPasswordValid)
+        console.log("isPasswordValid: ",isPasswordValid)
         const token = jwt.sign({ userId: user._id }, "jwtSecret", { expiresIn: '1h' });
 
         console.log("Generated JWT token: ", token);
