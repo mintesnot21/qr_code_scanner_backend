@@ -77,13 +77,17 @@ app.post('/api/auth/login', async (req, res) => {
             return res.status(401).json({ error: 'Invalid password' });
         }
 
+        console.log.log("isPasswordValid: ",isPasswordValid)
         const token = jwt.sign({ userId: user._id }, "jwtSecret", { expiresIn: '1h' });
+
+        console.log("Generated JWT token: ", token);
         res.json({
             success:true,
             data:user,
             token
         });
     } catch (error) {
+        console.error("Login error: ", error);
         res.status(500).json({ error: 'Failed to login user' });
     }
 });
