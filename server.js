@@ -233,12 +233,19 @@ app.patch('/api/menu/:id', upload.single("image"), async (req, res) => {
 
         if (req.file) {
       // Delete old image from Cloudinary
-      await cloudinary.uploader.destroy(menuItem.publicId);
-      
-       if (menuItem.publicId) {
-        await cloudinary.uploader.destroy(menuItem.publicId);
-    }
 
+      
+     if (menuItem.imageUrl && menuItem.publicId) {
+        try {
+            await cloudinary.uploader.destroy(menuItem.publicId);
+            console.log("Old image deleted successfully");
+        } catch (deleteError) {
+            console.log("Error deleting old image:", deleteError.message);
+            // Continue with the update even if delete fails
+        }
+    } else {
+        console.log("No existing image to delete");
+    }
       // Update with new image
       menuItem.imageUrl = req.file.path;
       menuItem.publicId = req.file.filename;
