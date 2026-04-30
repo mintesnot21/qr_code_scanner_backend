@@ -238,6 +238,10 @@ app.patch('/api/menu/:id', upload.single("image"), async (req, res) => {
       // Update with new image
       menuItem.imageUrl = req.file.path;
       menuItem.publicId = req.file.filename;
+
+      console.log("Updated menu item with new image filename:", req.file.filename);
+      console.log("Updated menu item with new image path:", req.file.path);
+
     }
 
         await menuItem.save();
