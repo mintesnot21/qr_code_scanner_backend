@@ -6,7 +6,7 @@ require("dotenv").config()
 const app = express();
 
 const { menuModel } = require('./menuModel');
-const { upload } = require('./fileUpload');
+const { upload, cloudinary } = require('./fileUpload');
 const { connectDb } = require('./connectDb');
 const { userModel } = require('./useModel');
 
