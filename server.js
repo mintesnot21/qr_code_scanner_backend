@@ -235,6 +235,10 @@ app.patch('/api/menu/:id', upload.single("image"), async (req, res) => {
       // Delete old image from Cloudinary
       await cloudinary.uploader.destroy(menuItem.publicId);
       
+       if (menuItem.publicId) {
+        await cloudinary.uploader.destroy(menuItem.publicId);
+    }
+
       // Update with new image
       menuItem.imageUrl = req.file.path;
       menuItem.publicId = req.file.filename;
